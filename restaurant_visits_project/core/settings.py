@@ -1,3 +1,4 @@
+import datetime
 import os
 from distutils.util import strtobool
 from pathlib import Path
@@ -24,12 +25,27 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Inner apps
+    'v1.diary.apps.DiaryConfig',
+
     # 3rd party apps
     'rest_framework',
 
-    # Inner apps
-    'v1.diary.apps.DiaryConfig',
+    # Authentication
+    "rest_framework.authtoken",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+
+    # Allauth required
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
 ]
+
+# Is required for allauth for registration
+# https://django-allauth.readthedocs.io/en/latest/installation.html
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,7 +81,13 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 10,
+    "PAGE_SIZE": 25,
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
 }
 
 WSGI_APPLICATION = 'core.wsgi.application'
@@ -103,3 +125,16 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Settings for JWT
+# https://dj-rest-auth.readthedocs.io/en/latest/installation.html#json-web-token-jwt-support-optional
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = "diary-auth"
+JWT_AUTH_REFRESH_COOKIE = "diary-refresh-token"
+# For entry task purposes it is OK that it is disabled
+ACCOUNT_EMAIL_VERIFICATION = "none"
+# JWT_AUTH_SECURE - If you want the cookie to be only sent to the server
+# when a request is made with the https scheme (default: False).
+JWT_AUTH_SECURE = False
+# Every time user refreshes their token, new refresh-token is provided
+SIMPLE_JWT = {"REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=30), "ROTATE_REFRESH_TOKENS": True}

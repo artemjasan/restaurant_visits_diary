@@ -21,14 +21,12 @@ class Restaurant(models.Model):
     objects = models.Manager()
     visited_objects = RestaurantManager()
 
-    def _str__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
+        unique_together = [["creator", "name"]]
         ordering = ["name"]
-        constraints = [
-            models.UniqueConstraint(fields=['name', 'creator'], name='unique_user_restaurant')
-        ]
 
 
 class Visit(models.Model):
@@ -43,4 +41,4 @@ class Visit(models.Model):
         return self.date
 
     class Meta:
-        ordering = ["date"]
+        ordering = ["-date"]
