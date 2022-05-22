@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Restaurant, Visit
+from v1.diary.models import Restaurant, Visit
 
 
 class VisitSerializer(serializers.ModelSerializer):
@@ -12,10 +12,11 @@ class VisitSerializer(serializers.ModelSerializer):
 class RestaurantListSerializer(serializers.ModelSerializer):
 
     visits = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    creator = serializers.HiddenField(default=serializers.CreateOnlyDefault(serializers.CurrentUserDefault()))
 
     class Meta:
         model = Restaurant
-        fields = ("id", "name", "city", "cuisine", "visits")
+        fields = ("id", "name", "city", "cuisine", "visits", "creator")
 
 
 class RestaurantDetailSerializer(RestaurantListSerializer):
