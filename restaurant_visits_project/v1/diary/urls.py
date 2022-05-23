@@ -1,11 +1,15 @@
-from django.urls import include, path
-from rest_framework.routers import SimpleRouter
+from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
 
-from .views import VisitsViewSet, RestaurantsViewSet
+from v1.diary.views import visit_views, restaurant_views
 
-router = SimpleRouter()
 
-router.register(r"restaurants", RestaurantsViewSet, basename="restaurant")
-router.register(r"visits", VisitsViewSet, basename="visit")
+urlpatterns = [
+    path('visits/', visit_views.VisitList.as_view()),
+    path('visits/<int:pk>/', visit_views.VisitDetail.as_view()),
+    path('restaurants/', restaurant_views.RestaurantList.as_view()),
+    path('restaurants/<int:pk>/', restaurant_views.RestaurantDetail.as_view()),
+    path('restaurants/<int:pk>/add_visit/', restaurant_views.AddVisitRestaurant.as_view()),
+]
 
-urlpatterns = [path("", include(router.urls))]
+urlpatterns = format_suffix_patterns(urlpatterns)
