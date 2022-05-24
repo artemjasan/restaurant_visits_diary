@@ -9,7 +9,7 @@ urlpatterns = [
     path('visits/<int:pk>/', visit_views.VisitDetail.as_view()),
     path('restaurants/', restaurant_views.RestaurantList.as_view()),
     path('restaurants/<int:pk>/', restaurant_views.RestaurantDetail.as_view()),
-    path('restaurants/<int:pk>/add_visit/', restaurant_views.AddVisitRestaurant.as_view()),
+    path('restaurants/<int:pk>/add_visit/', restaurant_views.AddVisitToRestaurant.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

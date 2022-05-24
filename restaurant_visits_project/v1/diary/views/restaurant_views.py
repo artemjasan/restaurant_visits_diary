@@ -26,7 +26,7 @@ class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsCreator]
 
 
-class AddVisitRestaurant(generics.GenericAPIView):
+class AddVisitToRestaurant(generics.GenericAPIView):
     serializer_class = visit_serializers.BaseVisitSerializer
     permission_classes = [IsAuthenticated, IsCreator]
     queryset = Restaurant.objects.all()
