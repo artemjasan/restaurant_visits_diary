@@ -1,9 +1,8 @@
 from django.db.models import Avg, QuerySet
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.request import Request
-
+from rest_framework.response import Response
 from v1.diary.models import Restaurant
 from v1.diary.permissions import IsCreator
 from v1.diary.serializers import restaurant_serializers, visit_serializers
@@ -14,10 +13,11 @@ class RestaurantList(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self) -> QuerySet:
-        return Restaurant.visited_objects\
-            .filter(creator=self.request.user)\
-            .annotate(_average_rating=Avg('visits__rating'))\
+        return (
+            Restaurant.visited_objects.filter(creator=self.request.user)
+            .annotate(_average_rating=Avg("visits__rating"))
             .order_by("-id")
+        )
 
 
 class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -37,6 +37,4 @@ class AddVisitToRestaurant(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         visit = serializer.save(creator=request.user, restaurant=restaurant)
         restaurant.visits.add(visit)
-        return Response(
-            f"A new visit to {restaurant.name} restaurant was added.", status=status.HTTP_200_OK
-        )
+        return Response(f"A new visit to {restaurant.name} restaurant was added.", status=status.HTTP_200_OK)

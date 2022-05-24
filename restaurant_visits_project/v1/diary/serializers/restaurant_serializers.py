@@ -1,7 +1,5 @@
-from typing import Any
-
 from rest_framework import serializers
-
+from typing import Any
 from v1.diary.models import Restaurant
 from v1.diary.serializers import visit_serializers
 

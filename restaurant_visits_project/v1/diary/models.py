@@ -1,8 +1,7 @@
 from datetime import date
-
-from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 
 
 class RestaurantManager(models.Manager):
@@ -23,7 +22,7 @@ class Restaurant(models.Model):
 
     @property
     def average_rating(self):
-        avr_rating = self.visits.aggregate(models.Avg("rating"))['rating__avg']
+        avr_rating = self.visits.aggregate(models.Avg("rating"))["rating__avg"]
         if avr_rating is None:
             return 0.0
         return avr_rating

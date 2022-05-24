@@ -1,7 +1,6 @@
 from django.db.models import QuerySet
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-
 from v1.diary.models import Visit
 from v1.diary.permissions import IsCreator
 from v1.diary.serializers import visit_serializers

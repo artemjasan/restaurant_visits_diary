@@ -1,4 +1,4 @@
-from rest_framework.permissions import BasePermission, IsAdminUser
+from rest_framework.permissions import BasePermission
 
 
 class IsCreator(BasePermission):
