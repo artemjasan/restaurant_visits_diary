@@ -7,13 +7,12 @@ from v1.diary.permissions import IsCreator
 from v1.diary.serializers import visit_serializers
 
 
-class VisitList(generics.ListCreateAPIView):
-    queryset = Visit.objects.all()
+class VisitList(generics.ListAPIView):
     serializer_class = visit_serializers.VisitSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self) -> QuerySet:
-        return super().get_queryset().filter(creator=self.request.user)
+        return Visit.objects.filter(creator=self.request.user)
 
 
 class VisitDetail(generics.RetrieveUpdateDestroyAPIView):

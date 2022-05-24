@@ -21,12 +21,19 @@ class Restaurant(models.Model):
     objects = models.Manager()
     visited_objects = RestaurantManager()
 
+    @property
+    def average_rating(self):
+        avr_rating = self.visits.aggregate(models.Avg("rating"))['rating__avg']
+        if avr_rating is None:
+            return 0.0
+        return avr_rating
+
     def __str__(self):
         return self.name
 
     class Meta:
+        ordering = ["-id"]
         unique_together = [["creator", "name"]]
-        ordering = ["name"]
 
 
 class Visit(models.Model):

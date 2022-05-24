@@ -1,4 +1,4 @@
-from django.db.models import QuerySet
+from django.db.models import Avg, QuerySet
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -10,12 +10,14 @@ from v1.diary.serializers import restaurant_serializers, visit_serializers
 
 
 class RestaurantList(generics.ListCreateAPIView):
-    queryset = Restaurant.objects.all()
     serializer_class = restaurant_serializers.RestaurantListSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self) -> QuerySet:
-        return super().get_queryset().filter(creator=self.request.user)
+        return Restaurant.visited_objects\
+            .filter(creator=self.request.user)\
+            .annotate(_average_rating=Avg('visits__rating'))\
+            .order_by("-id")
 
 
 class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
