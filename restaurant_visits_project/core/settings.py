@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "dj_rest_auth",
     "dj_rest_auth.registration",
-    "drf_yasg",
+    "drf_spectacular",
     # Allauth required
     "django.contrib.sites",
     "allauth",
@@ -79,6 +79,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 25,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ],
@@ -139,3 +140,8 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 JWT_AUTH_SECURE = False
 # Every time user refreshes their token, new refresh-token is provided
 SIMPLE_JWT = {"REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=30), "ROTATE_REFRESH_TOKENS": True}
+# Spectacular settings
+SPECTACULAR_SETTINGS = {"TITLE": "Diary schema", "VERSION": "0.0.1", "SCHEMA_PATH_PREFIX": r"/api/(v[0-9]+)*"}
+
+# 3rd party
+BASE_URL_API = os.getenv("BASE_URL_API", "http://api.coincap.io/v2/assets/")
