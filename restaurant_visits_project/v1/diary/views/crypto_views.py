@@ -1,13 +1,10 @@
 from drf_spectacular import utils as spec_utils
 from rest_framework import response, status, views
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.serializers import CharField, URLField
 from v1.diary import services
 
 
 class CryptoViews(views.APIView):
-    permission_classes = [IsAuthenticated]
-
     @spec_utils.extend_schema(
         description="Provides, list of crypto coins.",
         responses={

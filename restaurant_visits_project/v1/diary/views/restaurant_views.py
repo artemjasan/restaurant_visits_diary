@@ -1,6 +1,5 @@
 from django.db.models import Avg, QuerySet
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from v1.diary.models import Restaurant
@@ -10,7 +9,6 @@ from v1.diary.serializers import restaurant_serializers, visit_serializers
 
 class RestaurantList(generics.ListCreateAPIView):
     serializer_class = restaurant_serializers.RestaurantListSerializer
-    permission_classes = [IsAuthenticated]
 
     def get_queryset(self) -> QuerySet:
         return (
@@ -23,12 +21,12 @@ class RestaurantList(generics.ListCreateAPIView):
 class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Restaurant.objects.all()
     serializer_class = restaurant_serializers.RestaurantDetailSerializer
-    permission_classes = [IsAuthenticated, IsCreator]
+    permission_classes = [IsCreator]
 
 
 class AddVisitToRestaurant(generics.GenericAPIView):
     serializer_class = visit_serializers.BaseVisitSerializer
-    permission_classes = [IsAuthenticated, IsCreator]
+    permission_classes = [IsCreator]
     queryset = Restaurant.objects.all()
 
     def post(self, request: Request, *args, **kwargs) -> Response:
@@ -37,4 +35,4 @@ class AddVisitToRestaurant(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         visit = serializer.save(creator=request.user, restaurant=restaurant)
         restaurant.visits.add(visit)
-        return Response(f"A new visit to {restaurant.name} restaurant was added.", status=status.HTTP_200_OK)
+        return Response(f"A new visit to {restaurant.name} restaurant was added.", status=status.HTTP_201_CREATED)

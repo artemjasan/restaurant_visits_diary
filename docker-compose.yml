@@ -10,6 +10,8 @@ services:
       - db
     environment:
       POSTGRES_HOST: db
+    env_file:
+      - local.env
     volumes:
       - ./restaurant_visits_project:/restaurant_visits_diary/restaurant_visits_project
     ports:

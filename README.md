@@ -1,6 +1,5 @@
 # Diary of visits to restaurants
-REST API JSON Python microservice which allows users to browse a product catalog and which automatically
-updates prices from the offer service.
+REST API JSON Python project which allows users creation of restaurants and visit notes to them.
 
 ## Start here
 This is the `api` part of the `Diary of restaurants`.
@@ -15,10 +14,10 @@ for creation API layer
 - [Pytest](https://docs.pytest.org/en/7.1.x/) modern, flexible python framework for testing
 - [pre-commit](https://pre-commit.com/) additional version control tool
 
-It's start of your journey on this project.
-For convenience, I tried to use the features provided by containerization using `Docker` and
-`Docker Compose`. They can greatly isolate the development process and unify the development result across all dev's
-machines, but before using `Docker` you have to do a few steps:
+This is the start point of your journey on this project.
+For convenience, I tried to use the containerization, which provides by `Docker` and `Docker Compose`.
+It can significantly isolate and unify process on all machines,
+but before using Docker, you have to complete several steps:
 
 **Install poetry package manager to your machine**
 ```shell
@@ -33,9 +32,9 @@ $ poetry shell
 $ poetry install
 ```
 ## Launch application by `Docker`/`Docker Compose`
-Firstly you need to create a `local.env` file in root directory. It can be empty, because by default,
-Django uses standard Base URL. But, if you want to configure you custom URL, just add a new environment
-variable `BASE_OFFER_MICROSERVICE_API` with your Base URL.
+Firstly you need to create a `local.env` file in root directory. `It can be empty`, because by default,
+Django uses default values for the environment variables. But, if you want to customize them, just add
+required environment variables to `local.env` file.
 
 Next step is build Docker image:
 #### Via `docker-compose`
@@ -98,14 +97,3 @@ launch it manually:
 ```shell
 $ pre-commit run --all-files
 ```
-
-## What could also be added to the project
-There are hundreds of things that can be added/updated:
-
-- Unique access token for each user, load process replace to Celery
-- More complex authentication system for users and their own products
-- Use Redis for extra exercises (view caching)
-- Optimization process of creation product offers, add update process
-- Add registration process to Celery with subsequent check of result
-- Add track the history of offer prices and create an endpoint which returns by using `django-simple-history`
-- Deploy to Heroku, in future to AWS
