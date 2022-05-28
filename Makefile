@@ -19,12 +19,12 @@ build-up: build up
 
 # Migrate the database
 migrate:
-	docker-compose run --rm web python restaurant_visits_diary/manage.py migrate
+	docker-compose run --rm web python restaurant_visits_project/manage.py migrate
 	docker-compose stop
 
 # Create migrations
 makemigrations:
-	docker-compose run --rm web python restaurant_visits_diary/manage.py makemigrations
+	docker-compose run --rm web python restaurant_visits_project/manage.py makemigrations
 	docker-compose stop
 
 # Run the testing
